@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <title>Document</title>
+</head>
+<body>
+    <ul class="keys">
+        <li></li>
+        <li><div data-key="65" class="key">
+          <kbd>A</kbd>
+          <span class="sound">doop</span>
+        </div></li>
+        <li><div data-key="83" class="key">
+          <kbd>S</kbd>
+          <span class="sound">oonst</span>
+        </div></li>
+        <li><div data-key="68" class="key">
+          <kbd>D</kbd>
+          <span class="sound">psssht</span>
+        </div></li>
+        <li><div data-key="70" class="key">
+          <kbd>F</kbd>
+          <span class="sound">popopop</span>
+        </div></li>
+        <li><div data-key="71" class="key">
+          <kbd>G</kbd>
+          <span class="sound">zapzap</span>
+        </div></li>
+        <li><div data-key="72" class="key">
+          <kbd>H</kbd>
+          <span class="sound">bing</span>
+        </div></li>
+        <li><div data-key="74" class="key">
+          <kbd>J</kbd>
+          <span class="sound">bwingbwing</span>
+        </div></li>
+        <li><div data-key="75" class="key">
+          <kbd>K</kbd>
+          <span class="sound">OOOooo</span>
+        </div></li>
+      <li><div data-key="76" class="key">
+          <kbd>L</kbd>
+          <span class="sound">z00z00ziizii</span>
+        </div></li>
+    </ul>
+
+    <audio data-key="65" src="sounds/28105__john-rayson__beefy.wav"></audio>
+  <audio data-key="83" src="sounds/172236__qubenzis__psy-beat-jpsy-sub-2.wav"></audio>
+  <audio data-key="68" src="sounds/183458__snapper4298__the-break-kit2.wav"></audio>
+  <audio data-key="70" src="sounds/189907__cqbcqb__psyroll9.wav"></audio>
+  <audio data-key="71" src="sounds/191972__electroshocknetwork__bass-07-150bpm.wav"></audio>
+  <audio data-key="72" src="sounds/215226__spankmyfilth__5-blip-random-spankmyfilth.wav"></audio>
+  <audio data-key="74" src="sounds/353267__techgeekmusic__koany-reese-f.wav"></audio>
+  <audio data-key="75" src="sounds/482373__synergyxxx69__femaleyoung02-so-dance04.wav"></audio>
+  <audio data-key="76" src="sounds/521876__badoink__bass-swell.wav"></audio>
+
+    <script>
+
+
+
+
+//circle with animation
+var type = 1, //circle type - 1 whole, 0.5 half, 0.25 quarter
+    radius = '28em', //distance from center
+    start = -90, //shift start from 0
+    $elements = $('li:not(:first-child)'),
+    numberOfElements = (type === 1) ?  $elements.length : $elements.length - 1, //adj for even distro of elements when not full circle
+    slice = 360 * type / numberOfElements;
+
+$elements.each(function(i) {
+    var $self = $(this),
+        rotate = slice * i + start,
+        rotateReverse = rotate * -1;
+    
+    $self.css({
+        'transform': 'rotate(' + rotate + 'deg) translate(' + radius + ') rotate(' + rotateReverse + 'deg)'
+    });
+});
+
+//sound
+function playSound(e){
+const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+if(!audio) return;
+audio.currentTime = 0;
+audio.play();
+key.classList.add("playing");
+ }
+
+ function removeTransition(e){
+if(e.propertyName !== "transform") return;
+this.classList.remove('playing');
+
+ }
+
+ const keys = document.querySelectorAll('.key');
+ keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+ window.addEventListener('keydown', playSound);
+
+    </script>
+</body>
+</html>
